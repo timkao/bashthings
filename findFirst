@@ -1,7 +1,9 @@
 #!/bin/bash
 
 
+fileName=$1
+howMany=${2:-2}
+
 echo "Hello World"
 
-sort -nr $1 | head -${2:-2}
-
+sort -nr $fileName | head -$howMany
