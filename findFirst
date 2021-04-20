@@ -2,8 +2,9 @@
 
 fileName=$1
 fileName=${fileName:?"missing"}
-howMany=${2:-2}
 
-echo "Hello World"
+# We cannot reassign position parameters. Hence, we use create another variable
+# to bypass the limit.
+howMany=$2
 
-sort -nr $fileName | head -$howMany
+sort -nr $fileName | head -${howMany:=7}
