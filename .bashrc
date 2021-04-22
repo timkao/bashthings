@@ -20,3 +20,11 @@ function pushe {
     echo "still in $PWD"
   fi
 }
+
+
+function cd {
+  builtin cd "$@"
+  endStatus=$?
+  echo "$OLDPWD -> $PWD"
+  return $endStatus
+}
