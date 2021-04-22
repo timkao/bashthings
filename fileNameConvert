@@ -1,0 +1,8 @@
+#!/bin/bash
+
+echo "Hello world"
+
+fileName=$1
+outfile=${fileName%.pcx}.jpg
+
+echo $outfile
