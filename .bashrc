@@ -12,9 +12,9 @@ function alic {
 
 function pushe {
   dirname=$1
-  if cd ${dirname:?"missing directory name"}
-  then
-    DIR_STACK="$dirname ${DIR_STACK:-$PWD }"
+  if [ -n "$dirname" ] && [ \( -d "$dirname" \) -a  \( -x "$dirname" \) ]; then
+    cd $dirname
+    DIR_NAME="$dirname ${DIR_STACK:-$PWD' '}"
     echo $DIR_STACK
   else
     echo "still in $PWD"
@@ -30,12 +30,19 @@ function cd {
 }
 
 function pope {
-
-  if [ -n "$DIR_NAME" ]
-  then
-    DIR_STACK=${DIR_NAME#* }
-    cd ${DIR_NAME%% *}
+  if [ -n "$DIR_STACK" ]; then
+    DIR_STACK=${DIR_STACK#* }
+    cd ${DIR_STACK%% *}
     echo "$PWD"
   else
     echo "Stack empty, still in $PWD"
+  fi
+}
+
+function fileInfo {
+  if [ ! -e "$1" ]; then
+    echo "file $1 does not exist"
+  else
+    echo "file $1 exists"
+  fi
 }
