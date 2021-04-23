@@ -1,13 +1,19 @@
 #!/bin/bash
 
-fileName=$1
-fileName=${fileName:?"missing"}
+if [ -z $1 ]; then
+  echo "usage: highest filename [-N]"
+  exit 1
+fi
+
 
 # We cannot reassign position parameters. Hence, we use create another variable
 # to bypass the limit.
-howMany=$2
+fileName=$1
+
+# we can also put "Dash" in the default value
+howMany=${2:--10}
 
 header=$3
 
 echo -e -n ${header:+"Random List\n"}
-sort -nr $fileName | head -${howMany:=7}
+sort -nr $fileName | head $howMany

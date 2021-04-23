@@ -28,3 +28,14 @@ function cd {
   echo "$OLDPWD -> $PWD"
   return $endStatus
 }
+
+function pope {
+
+  if [ -n "$DIR_NAME" ]
+  then
+    DIR_STACK=${DIR_NAME#* }
+    cd ${DIR_NAME%% *}
+    echo "$PWD"
+  else
+    echo "Stack empty, still in $PWD"
+}
