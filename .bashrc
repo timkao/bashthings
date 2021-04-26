@@ -21,14 +21,6 @@ function pushe {
   fi
 }
 
-
-function cd {
-  builtin cd "$@"
-  endStatus=$?
-  echo "$OLDPWD -> $PWD"
-  return $endStatus
-}
-
 function pope {
   if [ -n "$DIR_STACK" ]; then
     DIR_STACK=${DIR_STACK#* }
@@ -92,14 +84,30 @@ function checkFiles {
 }
 
 
+function traverseDir {
+  tab=$tab$singletab
+  for file in "$@"; do
+    echo -e $tab$file
+    thisfile=$thisfile/$file
+    if [ -d "$thisfile" ]; then
+      traverseDir $(command ls $thisfile)
+    fi
+
+    thisfile=${thisfile%/*}
+  done
+
+  tab=${tab%"$singletab"}
+}
+
 function makeDirTree {
+  singletab="\t"
   for tryfile in "$@"; do
-    echo $tryfile
+    echo "$tryfile"
     if [ -d "$tryfile" ]; then
-      echo "-------------"
-      builtin cd $tryfile
-      makeDirTree $(ls)
-      builtin cd ..
+      thisfile=$tryfile
+      traverseDir $(command ls $tryfile)
     fi
   done
+
+  unset dir singletab tab
 }
