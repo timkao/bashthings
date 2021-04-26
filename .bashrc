@@ -90,3 +90,16 @@ function checkFiles {
     echo
   done
 }
+
+
+function makeDirTree {
+  for tryfile in "$@"; do
+    echo $tryfile
+    if [ -d "$tryfile" ]; then
+      echo "-------------"
+      builtin cd $tryfile
+      makeDirTree $(ls)
+      builtin cd ..
+    fi
+  done
+}
