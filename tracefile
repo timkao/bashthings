@@ -1,7 +1,6 @@
 #!/bin/bash
 
 for tryfile in "$@"; do
-  echo -n $prefix
   echo $tryfile
   if [ -d "$tryfile" ]; then # -d works properly when we open a new subshell.
     builtin cd $tryfile
