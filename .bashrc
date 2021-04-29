@@ -69,10 +69,20 @@ function fileInfo {
 }
 
 function showPaths {
+  # change IFS
   IFS=:
   for dir in $PATH
   do
     ls -ld $dir
+  done
+}
+
+function displayPaths {
+  paths=$PATH
+
+  while [ $paths ]; do
+    ls -ld ${paths%%:*}
+    paths=${paths#*:}
   done
 }
 
