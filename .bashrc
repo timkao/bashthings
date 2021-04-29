@@ -85,27 +85,34 @@ function checkFiles {
 
 
 function traverseDir {
-  tab=$tab$singletab
   for file in "$@"; do
-    echo -e $tab$file
     thisfile=$thisfile/$file
     if [ -d "$thisfile" ]; then
+      echo -e "$partition$dashes$file\\"
+      partition="$partition$singletab|"
+      echo -e $partition
       traverseDir $(command ls $thisfile)
+      echo -e $partition
+    elif ! [ -d "$thisfile" ]; then
+      echo -e "$partition$dashes$file"
     fi
-
     thisfile=${thisfile%/*}
   done
-
-  tab=${tab%"$singletab"}
+  partition=${partition%"$singletab|"}
 }
 
 function makeDirTree {
+  dashes="-------"
+  partition="|"
   singletab="\t"
   for tryfile in "$@"; do
-    echo "$tryfile"
     if [ -d "$tryfile" ]; then
+      echo -e "$tryfile\\"
+      echo $partition
       thisfile=$tryfile
       traverseDir $(command ls $tryfile)
+    elif ! [ -d ${thisfile} ]; then
+      echo "$tryfile"
     fi
   done
 
