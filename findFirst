@@ -1,18 +1,23 @@
 #!/bin/bash
 
 if [ -z $1 ]; then
-  echo "usage: findFirst filename [-N]"
+  echo "usage: findFirst [-N] filename"
   exit 1
 fi
 
-
 # We cannot reassign position parameters. Hence, we use create another variable
 # to bypass the limit.
+if [ -n "$( echo $1 | grep '^-[0-9][0-9]*$' )" ]; then
+  howMany=$1
+  shift
+elif [ -n "$( echo $1 | grep '^-' )" ]; then
+  echo 'usage: findFirst [-N] filename'
+  exit 1
+else
+  howMany="-10"
+fi
+
 fileName=$1
-
-# we can also put "Dash" in the default value
-howMany=${2:--10}
-
 header=$3
 
 echo -e -n ${header:+"Random List\n"}
